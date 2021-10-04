@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Simple rest example
+ * by Berihun Hadis
  */
 package com.customerapi.customerapi.controller;
 
@@ -23,20 +23,21 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepo customerRepo;
-
+//use getmapping to retrieve all customer data from db
     @GetMapping("/customer")
     public List<Customer> getAllCustomer() {
         return customerRepo.findAll();
     }
-
+//use postmapping to insert customer data to db
     @PostMapping("/customer")
     public String addCustomer(@Validated @RequestBody Customer customer) {
         customerRepo.save(customer);
         return "customer registered!";
     }
-
+//use putmapping to modify existing customer data from db
     @PutMapping("/customer/id")
     public String updateCustomer(@PathVariable(value = "id") long id, @Validated @RequestBody Customer customer) {
+       //optional return data if it exists without any error if it doesn't exist any record with the specified id
         Optional<Customer> c = customerRepo.findById(id);
         String message="";
         if (c.isPresent()) {
@@ -50,6 +51,7 @@ public class CustomerController {
         }
         return message;
     }
+    //use deletemapping to remove existing customer data from db
     @DeleteMapping("customer/id")
     public String deleteCustomer(@PathVariable(value = "id" )long id){
         Optional<Customer> c = customerRepo.findById(id);
