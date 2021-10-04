@@ -37,8 +37,8 @@ public class CustomerController {
 //use putmapping to modify existing customer data from db
     @PutMapping("/customer/id")
     public String updateCustomer(@PathVariable(value = "id") long id, @Validated @RequestBody Customer customer) {
-       //optional return data if it exists without any error if it doesn't exist any record with the specified id
-        Optional<Customer> c = customerRepo.findById(id);
+       //optional return data if it exists, otherwise no error if the record not found
+       Optional<Customer> c = customerRepo.findById(id);
         String message="";
         if (c.isPresent()) {
             c.get().setFirstName(customer.getFirstName());
